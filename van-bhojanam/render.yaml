@@ -1,0 +1,25 @@
+services:
+  # Backend — FastAPI booking API
+  - type: web
+    name: van-bhojanam-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: FRONTEND_ORIGINS
+        value: "*"   # tighten to your static site URL after first deploy
+
+  # Frontend — static booking site
+  - type: web
+    name: van-bhojanam-web
+    runtime: static
+    rootDir: frontend
+    staticPublishPath: .
+    buildCommand: ""
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

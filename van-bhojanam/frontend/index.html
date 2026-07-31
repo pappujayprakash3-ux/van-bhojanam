@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Van Bhojanam — Dining Under the Canopy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canopy-950:#0e2018;
+    --canopy-900:#152e21;
+    --canopy-800:#1e3d2c;
+    --canopy-700:#2c5238;
+    --bark-700:#4a3423;
+    --moss-500:#5c7a52;
+    --moonlight:#f1ecd9;
+    --moonlight-dim:#cfc9b2;
+    --amber:#e0a23a;
+    --amber-soft:#f0c876;
+    --ember:#c65b3f;
+    --line:rgba(241,236,217,0.14);
+    --shadow-deep: 0 30px 60px -20px rgba(0,0,0,0.55);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(224,162,58,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 90% 10%, rgba(92,122,82,0.14), transparent 55%),
+      var(--canopy-950);
+    color:var(--moonlight);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+  ::selection{background:var(--amber); color:var(--canopy-950);}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,32,24,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem; letter-spacing:0.01em;}
+  .brand svg{flex-shrink:0;}
+  .nav-links{display:flex; gap:28px; font-size:0.92rem; color:var(--moonlight-dim);}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--amber-soft);}
+  .cart-btn{
+    display:flex; align-items:center; gap:8px;
+    background:var(--canopy-800); border:1px solid var(--line);
+    color:var(--moonlight); padding:9px 16px; border-radius:100px;
+    font-size:0.88rem; cursor:pointer; transition:border-color .2s, background .2s;
+  }
+  .cart-btn:hover{border-color:var(--amber);}
+  .cart-count{
+    background:var(--amber); color:var(--canopy-950); font-weight:700;
+    min-width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:0.72rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative; padding:96px 0 80px; overflow:hidden;}
+  .fireflies{position:absolute; inset:0; pointer-events:none; overflow:hidden;}
+  .firefly{
+    position:absolute; width:4px; height:4px; border-radius:50%;
+    background:var(--amber-soft); box-shadow:0 0 8px 2px rgba(224,162,58,0.7);
+    animation:drift 9s ease-in-out infinite;
+    opacity:0;
+  }
+  @keyframes drift{
+    0%{opacity:0; transform:translateY(0) translateX(0);}
+    15%{opacity:0.9;}
+    50%{transform:translateY(-40px) translateX(18px);}
+    85%{opacity:0.6;}
+    100%{opacity:0; transform:translateY(-90px) translateX(-10px);}
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--amber-soft);
+    border:1px solid rgba(224,162,58,0.35); padding:6px 14px; border-radius:100px;
+    margin-bottom:28px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--amber); box-shadow:0 0 6px var(--amber);}
+  h1.title{
+    font-family:'Fraunces', serif; font-weight:600; font-optical-sizing:auto;
+    font-size:clamp(2.6rem, 6vw, 4.6rem); line-height:1.02; letter-spacing:-0.01em;
+    max-width:820px;
+  }
+  h1.title em{font-style:italic; color:var(--amber-soft); font-weight:500;}
+  .hero-sub{
+    max-width:520px; color:var(--moonlight-dim); font-size:1.08rem; margin-top:24px;
+  }
+  .hero-cta{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Public Sans', sans-serif; font-weight:600; font-size:0.94rem;
+    padding:14px 26px; border-radius:8px; border:none; cursor:pointer;
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--amber); color:var(--canopy-950);}
+  .btn-primary:hover{box-shadow:0 8px 24px -6px rgba(224,162,58,0.5);}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--moonlight);}
+  .btn-ghost:hover{border-color:var(--moonlight-dim);}
+
+  .hero-stats{display:flex; gap:40px; margin-top:64px; flex-wrap:wrap;}
+  .hero-stat .num{font-family:'JetBrains Mono', monospace; font-size:1.6rem; color:var(--amber-soft); font-weight:500;}
+  .hero-stat .lbl{font-size:0.78rem; color:var(--moonlight-dim); text-transform:uppercase; letter-spacing:0.08em; margin-top:4px;}
+
+  /* ---------- Canopy divider ---------- */
+  .canopy-line{height:26px; width:100%;
+    background-image: radial-gradient(circle at 10px 0, transparent 12px, var(--canopy-900) 13px);
+    background-size:26px 26px; background-repeat:repeat-x; background-position:top;
+  }
+
+  section{padding:72px 0;}
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:36px; flex-wrap:wrap; gap:16px;}
+  .section-head h2{font-family:'Fraunces', serif; font-size:2.1rem; font-weight:600;}
+  .section-head p{color:var(--moonlight-dim); font-size:0.94rem; max-width:420px;}
+
+  /* ---------- Menu ---------- */
+  .menu-tabs{display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap;}
+  .menu-tab{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;
+    background:transparent; border:1px solid var(--line); color:var(--moonlight-dim);
+    padding:9px 16px; border-radius:100px; cursor:pointer; transition:all .2s;
+  }
+  .menu-tab.active, .menu-tab:hover{background:var(--canopy-800); color:var(--amber-soft); border-color:var(--moss-500);}
+
+  .menu-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:18px;}
+  .dish{
+    background:linear-gradient(180deg, var(--canopy-900), var(--canopy-800));
+    border:1px solid var(--line); border-radius:14px; padding:22px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .dish-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .dish-name{font-family:'Fraunces', serif; font-size:1.12rem; font-weight:600;}
+  .dish-tag{font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--moss-500); font-family:'JetBrains Mono', monospace;}
+  .dish-desc{color:var(--moonlight-dim); font-size:0.85rem; flex-grow:1;}
+  .dish-bottom{display:flex; align-items:center; justify-content:space-between; margin-top:6px;}
+  .dish-price{font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--amber-soft);}
+  .add-btn{
+    background:transparent; border:1px solid var(--amber); color:var(--amber-soft);
+    width:32px; height:32px; border-radius:8px; font-size:1.1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
+  }
+  .add-btn:hover{background:var(--amber); color:var(--canopy-950);}
+  .qty-pill{
+    display:flex; align-items:center; gap:10px; background:var(--canopy-950);
+    border:1px solid var(--amber); border-radius:8px; padding:4px 10px;
+  }
+  .qty-pill button{background:none; border:none; color:var(--amber-soft); font-size:1rem; cursor:pointer; width:18px;}
+  .qty-pill span{font-family:'JetBrains Mono', monospace; font-size:0.9rem; min-width:14px; text-align:center;}
+
+  /* ---------- Zones ---------- */
+  .zone-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:18px;}
+  .zone-card{
+    position:relative; border-radius:16px; padding:26px; cursor:pointer;
+    border:1.5px solid var(--line); background:var(--canopy-900);
+    transition:border-color .2s, transform .2s;
+  }
+  .zone-card:hover{transform:translateY(-3px);}
+  .zone-card.selected{border-color:var(--amber); background:linear-gradient(160deg, var(--canopy-800), var(--canopy-900));}
+  .zone-card.selected::after{
+    content:"✓ selected"; position:absolute; top:16px; right:16px;
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; text-transform:uppercase;
+    color:var(--amber-soft); letter-spacing:0.05em;
+  }
+  .zone-name{font-family:'Fraunces', serif; font-size:1.25rem; font-weight:600; margin-bottom:6px;}
+  .zone-desc{color:var(--moonlight-dim); font-size:0.85rem; margin-bottom:18px; min-height:40px;}
+  .zone-price{font-family:'JetBrains Mono', monospace; font-size:1.4rem; color:var(--amber-soft);}
+  .zone-price span{font-size:0.72rem; color:var(--moonlight-dim); font-family:'Public Sans', sans-serif;}
+
+  .booking-fields{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:16px; margin-top:32px;
+  }
+  .field label{display:block; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--moonlight-dim); margin-bottom:8px;}
+  .field input, .field select{
+    width:100%; background:var(--canopy-900); border:1px solid var(--line); color:var(--moonlight);
+    padding:12px 14px; border-radius:8px; font-family:'Public Sans', sans-serif; font-size:0.92rem;
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(8,16,12,0.6); backdrop-filter:blur(2px); z-index:90; opacity:0; pointer-events:none; transition:opacity .25s;}
+  .overlay.open{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:min(420px, 92vw);
+    background:var(--canopy-950); border-left:1px solid var(--line);
+    z-index:100; transform:translateX(100%); transition:transform .3s ease;
+    display:flex; flex-direction:column; box-shadow:var(--shadow-deep);
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{padding:24px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+  .drawer-head h3{font-family:'Fraunces', serif; font-size:1.3rem;}
+  .close-btn{background:none; border:none; color:var(--moonlight-dim); font-size:1.4rem; cursor:pointer;}
+  .drawer-body{flex:1; overflow-y:auto; padding:20px 24px;}
+  .cart-item{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); gap:12px;}
+  .cart-item-name{font-size:0.92rem; font-weight:500;}
+  .cart-item-meta{font-size:0.76rem; color:var(--moonlight-dim); margin-top:2px;}
+  .empty-note{color:var(--moonlight-dim); font-size:0.88rem; text-align:center; padding:40px 0;}
+  .bill{padding:20px 24px; border-top:1px solid var(--line); background:var(--canopy-900);}
+  .bill-row{display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:10px; color:var(--moonlight-dim);}
+  .bill-row.total{color:var(--moonlight); font-weight:700; font-size:1.05rem; border-top:1px solid var(--line); padding-top:14px; margin-top:4px;}
+  .eco-note{font-size:0.72rem; color:var(--moss-500); margin-top:-4px; margin-bottom:12px; line-height:1.4;}
+  .checkout-btn{width:100%; margin-top:14px;}
+
+  /* ---------- Checkout modal ---------- */
+  .modal{
+    position:fixed; inset:0; z-index:110; display:flex; align-items:center; justify-content:center;
+    background:rgba(8,16,12,0.72); backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity .2s;
+    padding:20px;
+  }
+  .modal.open{opacity:1; pointer-events:auto;}
+  .modal-card{
+    background:var(--canopy-900); border:1px solid var(--line); border-radius:18px;
+    max-width:440px; width:100%; padding:32px; box-shadow:var(--shadow-deep);
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal-card h3{font-family:'Fraunces', serif; font-size:1.5rem; margin-bottom:6px;}
+  .modal-card p.sub{color:var(--moonlight-dim); font-size:0.88rem; margin-bottom:22px;}
+  .pay-options{display:flex; gap:10px; margin-bottom:22px;}
+  .pay-opt{
+    flex:1; text-align:center; padding:14px 10px; border-radius:10px; cursor:pointer;
+    border:1.5px solid var(--line); font-size:0.88rem; font-weight:600; transition:all .2s;
+  }
+  .pay-opt.active{border-color:var(--amber); background:rgba(224,162,58,0.1); color:var(--amber-soft);}
+  .confirm-box{text-align:center; padding:12px 0;}
+  .confirm-box .check{
+    width:64px; height:64px; border-radius:50%; background:rgba(92,122,82,0.2); border:2px solid var(--moss-500);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:1.8rem; color:var(--amber-soft);
+  }
+  .confirm-id{font-family:'JetBrains Mono', monospace; color:var(--amber-soft); font-size:1rem; margin:12px 0;}
+  .err-box{background:rgba(198,91,63,0.15); border:1px solid var(--ember); color:#f0b5a4; padding:12px 14px; border-radius:8px; font-size:0.84rem; margin-bottom:16px; display:none;}
+
+  /* ---------- Dashboard ---------- */
+  .dash{
+    background:var(--canopy-900); border:1px solid var(--line); border-radius:18px;
+    padding:32px; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:24px;
+  }
+  .dash-item .lbl{font-size:0.76rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--moonlight-dim); margin-bottom:8px;}
+  .dash-item .val{font-family:'JetBrains Mono', monospace; font-size:2rem; color:var(--amber-soft); font-weight:500;}
+  .dash-status{font-size:0.74rem; color:var(--moss-500); margin-top:4px; font-family:'JetBrains Mono', monospace;}
+
+  footer{border-top:1px solid var(--line); padding:40px 0; color:var(--moonlight-dim); font-size:0.82rem; text-align:center;}
+
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .hero{padding:64px 0 56px;}
+    section{padding:52px 0;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2C8 6 5 10 5 14a7 7 0 0014 0c0-4-3-8-7-12z" fill="#e0a23a"/></svg>
+      Van Bhojanam
+    </div>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#zones">Forest Zones</a>
+      <a href="#dashboard">Tonight</a>
+    </div>
+    <button class="cart-btn" onclick="openCart()">
+      Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="fireflies" id="fireflies"></div>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Seasonal menu · open till the fire dies down</div>
+    <h1 class="title">Dinner doesn't happen<br>indoors. <em>It happens under it.</em></h1>
+    <p class="hero-sub">Van Bhojanam is a jungle-dining table set among the trees — pick your clearing, pick your plates, and we'll have the fire going before you arrive.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="scrollTo('menu')">Browse the menu</button>
+      <button class="btn btn-ghost" onclick="scrollTo('zones')">Choose your zone</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num" id="statBookings">—</div><div class="lbl">Tables booked tonight</div></div>
+      <div class="hero-stat"><div class="num" id="statZones">4</div><div class="lbl">Forest zones open</div></div>
+      <div class="hero-stat"><div class="num">₹9</div><div class="lbl">Eco levy per cover</div></div>
+    </div>
+  </div>
+</header>
+<div class="canopy-line"></div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Tonight's plates</h2>
+        <p>Sourced within 40km, cooked mostly over open flame. Prices per plate.</p>
+      </div>
+    </div>
+    <div class="menu-tabs" id="menuTabs"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ZONES -->
+<section id="zones">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Pick your clearing</h2>
+        <p>Every zone has its own cover charge — it's the fire, the vantage, the walk-in.</p>
+      </div>
+    </div>
+    <div class="zone-grid" id="zoneGrid"></div>
+
+    <div class="booking-fields">
+      <div class="field">
+        <label>Guest name</label>
+        <input type="text" id="guestName" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" id="guestPhone" placeholder="10-digit number">
+      </div>
+      <div class="field">
+        <label>Guests</label>
+        <select id="guestCount">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="guestDate">
+      </div>
+      <div class="field">
+        <label>Time slot</label>
+        <select id="guestTime">
+          <option>6:00 PM</option><option>7:00 PM</option><option selected>7:30 PM</option><option>8:30 PM</option><option>9:30 PM</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="canopy-line"></div>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Live tonight</h2>
+        <p>Pulled straight from the booking API — refreshes after every checkout.</p>
+      </div>
+    </div>
+    <div class="dash">
+      <div class="dash-item">
+        <div class="lbl">Total revenue</div>
+        <div class="val" id="dashRevenue">₹0</div>
+        <div class="dash-status" id="dashStatusRev">● connecting…</div>
+      </div>
+      <div class="dash-item">
+        <div class="lbl">Bookings made</div>
+        <div class="val" id="dashCount">0</div>
+        <div class="dash-status">since the kitchen opened</div>
+      </div>
+      <div class="dash-item">
+        <div class="lbl">Avg. bill / table</div>
+        <div class="val" id="dashAvg">₹0</div>
+        <div class="dash-status">across all zones</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Van Bhojanam · jungle-dining, reservation required · booking API by FastAPI, hosted on Render</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Your table's order</h3>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody">
+    <div class="empty-note">Nothing on the fire yet — add a dish to begin.</div>
+  </div>
+  <div class="bill">
+    <div class="bill-row"><span>Subtotal</span><span id="billSubtotal">₹0</span></div>
+    <div class="bill-row"><span id="billCoverLabel">Cover charge</span><span id="billCover">₹0</span></div>
+    <div class="bill-row"><span>Eco levy</span><span id="billEco">₹0</span></div>
+    <div class="eco-note">A small levy that funds the trail's upkeep and waste composting. Fixed at ₹9 per guest.</div>
+    <div class="bill-row total"><span>Total</span><span id="billTotal">₹0</span></div>
+    <button class="btn btn-primary checkout-btn" onclick="openCheckout()">Proceed to checkout</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-card" id="checkoutCard">
+    <!-- content injected by JS -->
+  </div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+// Update this once your backend service is live on Render, e.g.
+// "https://van-bhojanam-api.onrender.com"
+const API_BASE_URL = "http://localhost:8000";
+
+/* ================= DATA ================= */
+const MENU = [
+  {id:'m1', cat:'Starters', name:'Charred Corn & Sumac', desc:'Open-fire corn, sumac butter, lime.', price:220},
+  {id:'m2', cat:'Starters', name:'Jungle Mushroom Skewers', desc:'Forest mushrooms, smoked chilli oil.', price:280},
+  {id:'m3', cat:'Starters', name:'Banana Leaf Fish Fry', desc:'River fish, mustard marinade, steamed in leaf.', price:340},
+  {id:'m4', cat:'Mains', name:'Bonfire Dal Makhani', desc:'24-hr slow-simmered, finished at your table.', price:310},
+  {id:'m5', cat:'Mains', name:'Clay-Pot Chicken Curry', desc:'Free-range chicken, coconut-ginger base.', price:420},
+  {id:'m6', cat:'Mains', name:'Foraged Greens Thali', desc:'Seasonal greens, millet, three chutneys.', price:360},
+  {id:'m7', cat:'Grill', name:'Tandoor Bamboo Prawns', desc:'Prawns skewered in bamboo, chargrilled.', price:480},
+  {id:'m8', cat:'Grill', name:'Smoked Paneer Tikka', desc:'Cottage cheese, hung curd marinade, embers.', price:300},
+  {id:'m9', cat:'Grill', name:'Whole Roasted Yam', desc:'Ash-roasted, jaggery glaze, peanut crumble.', price:260},
+  {id:'m10', cat:'Desserts', name:'Wild Honey Kheer', desc:'Rice pudding, forest honey, toasted nuts.', price:190},
+  {id:'m11', cat:'Desserts', name:'Jaggery Ember Cake', desc:'Baked over coals, warm jaggery caramel.', price:210},
+  {id:'m12', cat:'Beverages', name:'Firepit Masala Chai', desc:'Slow-brewed over the bonfire.', price:90},
+  {id:'m13', cat:'Beverages', name:'Kokum Cooler', desc:'Kokum, mint, black salt, sparkling water.', price:150},
+];
+
+const ZONES = [
+  {id:'canopy', name:'Canopy Deck', desc:'Elevated seating in the tree line, string-lit.', price:499},
+  {id:'riverside', name:'Riverside Grove', desc:'Low tables by the stream, cushion seating.', price:399},
+  {id:'bonfire', name:'Bonfire Clearing', desc:'Communal fire-pit tables, live grill nearby.', price:349},
+  {id:'treehouse', name:'Treehouse Loft', desc:'Private loft for up to 4, rope-bridge entry.', price:799},
+];
+
+const ECO_LEVY_PER_GUEST = 9;
+
+/* ================= STATE ================= */
+let cart = {}; // id -> qty
+let selectedZone = null;
+let selectedPayment = 'upi';
+
+/* ================= INIT ================= */
+function init(){
+  renderFireflies();
+  renderTabs();
+  renderMenu('All');
+  renderZones();
+  document.getElementById('guestDate').valueAsDate = new Date();
+  fetchStats();
+}
+
+function renderFireflies(){
+  const container = document.getElementById('fireflies');
+  for(let i=0;i<18;i++){
+    const f = document.createElement('div');
+    f.className='firefly';
+    f.style.left = Math.random()*100+'%';
+    f.style.top = 30+Math.random()*60+'%';
+    f.style.animationDelay = (Math.random()*9)+'s';
+    f.style.animationDuration = (7+Math.random()*6)+'s';
+    container.appendChild(f);
+  }
+}
+
+function renderTabs(){
+  const cats = ['All', ...new Set(MENU.map(m=>m.cat))];
+  const tabWrap = document.getElementById('menuTabs');
+  tabWrap.innerHTML = cats.map((c,i)=>
+    `<button class="menu-tab ${i===0?'active':''}" onclick="selectTab('${c}', this)">${c}</button>`
+  ).join('');
+}
+
+function selectTab(cat, el){
+  document.querySelectorAll('.menu-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMenu(cat);
+}
+
+function renderMenu(cat){
+  const items = cat==='All' ? MENU : MENU.filter(m=>m.cat===cat);
+  document.getElementById('menuGrid').innerHTML = items.map(dishCard).join('');
+}
+
+function dishCard(d){
+  const qty = cart[d.id] || 0;
+  return `
+    <div class="dish">
+      <div class="dish-top">
+        <div>
+          <div class="dish-tag">${d.cat}</div>
+          <div class="dish-name">${d.name}</div>
+        </div>
+      </div>
+      <div class="dish-desc">${d.desc}</div>
+      <div class="dish-bottom">
+        <div class="dish-price">₹${d.price}</div>
+        <div id="ctrl-${d.id}">
+          ${qty>0 ? qtyPill(d.id, qty) : `<button class="add-btn" onclick="addItem('${d.id}')">+</button>`}
+        </div>
+      </div>
+    </div>`;
+}
+
+function qtyPill(id, qty){
+  return `<div class="qty-pill">
+    <button onclick="decItem('${id}')">−</button>
+    <span>${qty}</span>
+    <button onclick="addItem('${id}')">+</button>
+  </div>`;
+}
+
+function addItem(id){
+  cart[id] = (cart[id]||0)+1;
+  document.getElementById('ctrl-'+id).innerHTML = qtyPill(id, cart[id]);
+  refreshCartUI();
+}
+function decItem(id){
+  cart[id] = (cart[id]||0)-1;
+  if(cart[id]<=0){ delete cart[id]; }
+  const ctrl = document.getElementById('ctrl-'+id);
+  ctrl.innerHTML = cart[id] ? qtyPill(id, cart[id]) : `<button class="add-btn" onclick="addItem('${id}')">+</button>`;
+  refreshCartUI();
+}
+
+function renderZones(){
+  document.getElementById('zoneGrid').innerHTML = ZONES.map(z=>`
+    <div class="zone-card" id="zone-${z.id}" onclick="selectZone('${z.id}')">
+      <div class="zone-name">${z.name}</div>
+      <div class="zone-desc">${z.desc}</div>
+      <div class="zone-price">₹${z.price}<span> cover / table</span></div>
+    </div>`).join('');
+}
+
+function selectZone(id){
+  selectedZone = id;
+  document.querySelectorAll('.zone-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('zone-'+id).classList.add('selected');
+  refreshCartUI();
+}
+
+/* ================= CART / BILL ================= */
+function cartLines(){
+  return Object.entries(cart).map(([id,qty])=>{
+    const d = MENU.find(m=>m.id===id);
+    return {...d, qty, lineTotal: d.price*qty};
+  });
+}
+
+function refreshCartUI(){
+  const lines = cartLines();
+  const count = lines.reduce((s,l)=>s+l.qty,0);
+  document.getElementById('cartCount').textContent = count;
+
+  const body = document.getElementById('cartBody');
+  if(lines.length===0){
+    body.innerHTML = `<div class="empty-note">Nothing on the fire yet — add a dish to begin.</div>`;
+  } else {
+    body.innerHTML = lines.map(l=>`
+      <div class="cart-item">
+        <div>
+          <div class="cart-item-name">${l.name}</div>
+          <div class="cart-item-meta">${l.qty} × ₹${l.price}</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace">₹${l.lineTotal}</div>
+      </div>`).join('');
+  }
+
+  const subtotal = lines.reduce((s,l)=>s+l.lineTotal,0);
+  const zone = ZONES.find(z=>z.id===selectedZone);
+  const cover = zone ? zone.price : 0;
+  const guests = parseInt((document.getElementById('guestCount').value||'2').replace('+',''))||2;
+  const eco = guests * ECO_LEVY_PER_GUEST;
+  const total = subtotal + cover + eco;
+
+  document.getElementById('billSubtotal').textContent = '₹'+subtotal;
+  document.getElementById('billCoverLabel').textContent = zone ? `Cover — ${zone.name}` : 'Cover charge';
+  document.getElementById('billCover').textContent = '₹'+cover;
+  document.getElementById('billEco').textContent = '₹'+eco;
+  document.getElementById('billTotal').textContent = '₹'+total;
+}
+document.getElementById('guestCount').addEventListener('change', refreshCartUI);
+
+/* ================= CART DRAWER ================= */
+function openCart(){
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCart(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function scrollTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+/* ================= CHECKOUT ================= */
+function openCheckout(){
+  const lines = cartLines();
+  if(lines.length===0){ alert('Add at least one dish before checking out.'); return; }
+  if(!selectedZone){ alert('Pick a forest zone for your table first.'); return; }
+  const name = document.getElementById('guestName').value.trim();
+  const phone = document.getElementById('guestPhone').value.trim();
+  if(!name || !phone){ alert('Please add your name and phone number.'); return; }
+
+  renderPaymentStep();
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeCheckout(){ document.getElementById('checkoutModal').classList.remove('open'); }
+
+function renderPaymentStep(){
+  const lines = cartLines();
+  const subtotal = lines.reduce((s,l)=>s+l.lineTotal,0);
+  const zone = ZONES.find(z=>z.id===selectedZone);
+  const guests = parseInt((document.getElementById('guestCount').value||'2').replace('+',''))||2;
+  const eco = guests * ECO_LEVY_PER_GUEST;
+  const total = subtotal + zone.price + eco;
+
+  document.getElementById('checkoutCard').innerHTML = `
+    <h3>Confirm & pay</h3>
+    <p class="sub">${zone.name} · ${guests} guests · ₹${total} total</p>
+    <div class="err-box" id="checkoutErr"></div>
+    <div class="pay-options">
+      <div class="pay-opt ${selectedPayment==='upi'?'active':''}" onclick="setPayment('upi', this)">UPI</div>
+      <div class="pay-opt ${selectedPayment==='card'?'active':''}" onclick="setPayment('card', this)">Card</div>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="submitBooking()" id="payBtn">Pay ₹${total} & reserve</button>
+    <button class="btn btn-ghost" style="width:100%; margin-top:10px" onclick="closeCheckout()">Cancel</button>
+  `;
+}
+function setPayment(method, el){
+  selectedPayment = method;
+  document.querySelectorAll('.pay-opt').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+async function submitBooking(){
+  const lines = cartLines();
+  const subtotal = lines.reduce((s,l)=>s+l.lineTotal,0);
+  const zone = ZONES.find(z=>z.id===selectedZone);
+  const guests = parseInt((document.getElementById('guestCount').value||'2').replace('+',''))||2;
+  const eco = guests * ECO_LEVY_PER_GUEST;
+  const total = subtotal + zone.price + eco;
+
+  const payload = {
+    guest_name: document.getElementById('guestName').value.trim(),
+    phone: document.getElementById('guestPhone').value.trim(),
+    guests: guests,
+    date: document.getElementById('guestDate').value,
+    time_slot: document.getElementById('guestTime').value,
+    zone_id: zone.id,
+    zone_name: zone.name,
+    items: lines.map(l=>({id:l.id, name:l.name, qty:l.qty, price:l.price})),
+    subtotal: subtotal,
+    cover_charge: zone.price,
+    eco_levy: eco,
+    total: total,
+    payment_method: selectedPayment
+  };
+
+  const payBtn = document.getElementById('payBtn');
+  payBtn.disabled = true;
+  payBtn.textContent = 'Processing…';
+
+  try{
+    const res = await fetch(`${API_BASE_URL}/api/checkout`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error('Booking API returned an error.');
+    const data = await res.json();
+    renderConfirmation(data, total);
+    cart = {};
+    selectedZone = null;
+    refreshCartUI();
+    renderMenu('All');
+    document.querySelectorAll('.zone-card').forEach(c=>c.classList.remove('selected'));
+    fetchStats();
+  } catch(err){
+    const errBox = document.getElementById('checkoutErr');
+    errBox.style.display='block';
+    errBox.textContent = "Couldn't reach the booking kitchen — check the API is running and API_BASE_URL is set correctly, then try again.";
+    payBtn.disabled = false;
+    payBtn.textContent = `Pay ₹${total} & reserve`;
+  }
+}
+
+function renderConfirmation(data, total){
+  document.getElementById('checkoutCard').innerHTML = `
+    <div class="confirm-box">
+      <div class="check">✓</div>
+      <h3>Table reserved</h3>
+      <p class="sub">See you under the canopy.</p>
+      <div class="confirm-id">Booking #${data.booking_id}</div>
+      <div class="bill-row"><span>Total paid</span><span>₹${total}</span></div>
+      <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="closeCheckout(); closeCart();">Done</button>
+    </div>
+  `;
+}
+
+/* ================= LIVE DASHBOARD ================= */
+async function fetchStats(){
+  try{
+    const res = await fetch(`${API_BASE_URL}/api/stats`);
+    if(!res.ok) throw new Error();
+    const data = await res.json();
+    document.getElementById('dashRevenue').textContent = '₹'+data.total_revenue;
+    document.getElementById('dashCount').textContent = data.booking_count;
+    document.getElementById('dashAvg').textContent = '₹'+(data.booking_count ? Math.round(data.total_revenue/data.booking_count) : 0);
+    document.getElementById('dashStatusRev').textContent = '● live';
+    document.getElementById('statBookings').textContent = data.booking_count;
+  } catch(e){
+    document.getElementById('dashStatusRev').textContent = '● API offline — start the backend';
+    document.getElementById('statBookings').textContent = '—';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
